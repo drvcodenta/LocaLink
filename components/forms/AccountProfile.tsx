@@ -16,7 +16,7 @@ import * as z from 'zod';
 import { Button } from "../ui/ui/button";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
-import { Textarea } from "@/ /ui/textarea";
+import { Textarea } from "@/_/ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from '@/lib/uploadthing'
 import { UpdateUser } from "@/lib/actions/user.actions";

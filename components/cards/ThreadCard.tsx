@@ -4,6 +4,7 @@ import heart_grey from "/assets/heart-gray.svg"
 import reply from "/assets/reply.svg"
 import share from "/assets/share.svg"
 import repost from "/assets/repost.svg"
+import Comment from "../forms/Comment";
 
 
 interface Props{
@@ -11,6 +12,7 @@ interface Props{
     currentUserId: string,
     parentId: string | null,
     content: string,
+    currentUserImg: string,
     author: {
         name: string,
         image: string,
@@ -35,6 +37,7 @@ const ThreadCard = ({
         currentUserId,
         parentId,
         content,
+        currentUserImg,
         author,
         community,
         createAt,
@@ -43,6 +46,7 @@ const ThreadCard = ({
 }: Props) => {
 
     return (
+        <div>
         <article className="flex w-full flex-col rounded-xl bg-dark-2 p-7">
             <div className="flex items-start justify-between">
                 <div className="flex w-full flex-1 flex-row gap-4">
@@ -88,12 +92,17 @@ const ThreadCard = ({
                                     <p className="mt-1 text-subtle-medium text-gray-1">{comments.length} repl{comments.length > 1 ? "ies" : "y"}</p>
                                 </Link>
                             )}
+
                     </div>
                     </div>
                 </div>
+
             </div>
 
         </article>
+        <Comment threadId={id} currentUserId={author.id} currentUserImg={author.image}/>
+        </div>
+        
     )
 
 }
