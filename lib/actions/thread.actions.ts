@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { ConnectToDB } from "../mongoose";
+import { error } from "console";
 
 
 interface Params{
@@ -109,5 +110,27 @@ export async function fetchThreadById(id: string){
         return thread;
     } catch (error: any) {
         throw new Error(`Error fetching thread: ${error.message}`)
+    }
+}
+
+export async function addCommentToThread(threadId:string, threadText: string, userId: string, path:string) {
+    ConnectToDB()
+    try{
+        const origThread = await(fetchThreadById(threadId))
+    if(!origThread){
+        throw new Error(`Error fetching original thread: ${error}`)
+    }
+
+    const Comment = new Thread({
+        text: threadText,
+        author: userId,
+        parentId: threadId,
+    })
+    origThread.children.push(threadId) //add the comment thread ID to the original threads's children array
+    const saveComment = await Comment.save(); //save the comment to the DB
+    await origThread.save() // save the updated original thread to the DB
+    revalidatePath(path)
+    }catch(error){
+        throw new Error(`Comment jaa nahi raha hai(unable to add Comment) ${error}`)
     }
 }

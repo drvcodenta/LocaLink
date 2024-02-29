@@ -4,7 +4,6 @@ import heart_grey from "/assets/heart-gray.svg"
 import reply from "/assets/reply.svg"
 import share from "/assets/share.svg"
 import repost from "/assets/repost.svg"
-import Comment from "../forms/Comment";
 
 
 interface Props{
@@ -12,7 +11,6 @@ interface Props{
     currentUserId: string,
     parentId: string | null,
     content: string,
-    currentUserImg: string,
     author: {
         name: string,
         image: string,
@@ -37,7 +35,6 @@ const ThreadCard = ({
         currentUserId,
         parentId,
         content,
-        currentUserImg,
         author,
         community,
         createAt,
@@ -100,7 +97,6 @@ const ThreadCard = ({
             </div>
 
         </article>
-        <Comment threadId={id} currentUserId={author.id} currentUserImg={author.image}/>
         </div>
         
     )

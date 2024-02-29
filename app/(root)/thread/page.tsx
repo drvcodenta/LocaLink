@@ -33,9 +33,11 @@ const Page = async ({ params } : { params : { id : string}}) => {
             comments = {thread .children}
         />
         </div>
-        <div className="mt-10">
+
+        
+        <div className="mt-7">
             <Comment 
-            threadId={thread.id}
+            threadId={params.id}
             currentUserId={JSON.stringify(userInfo._id)}
             currentUserImg={user.imageUrl}
             />
