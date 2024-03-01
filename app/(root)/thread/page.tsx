@@ -19,7 +19,7 @@ const Page = async ({ params } : { params : { id : string}}) => {
     const thread = await fetchThreadById(params.id)
 
     return(
-    <section className="relative">
+    <div className="relative">
         <div>
         <ThreadCard
             key = {thread._id}
@@ -34,15 +34,19 @@ const Page = async ({ params } : { params : { id : string}}) => {
         />
         </div>
 
-        
-        <div className="mt-7">
+
+        {/* <div className="mt-7">
             <Comment 
             threadId={params.id}
             currentUserId={JSON.stringify(userInfo._id)}
             currentUserImg={user.imageUrl}
             />
+        </div> */}
+
+        <div>
+            <h1 className="text-white">hello world!</h1>
         </div>
-    </section>)
+    </div>)
 }
 
 export default Page;
