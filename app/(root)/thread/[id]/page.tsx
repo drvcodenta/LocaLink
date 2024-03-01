@@ -34,17 +34,12 @@ const Page = async ({ params } : { params : { id : string}}) => {
         />
         </div>
 
-
-        {/* <div className="mt-7">
+        <div className="mt-7">
             <Comment 
             threadId={params.id}
             currentUserId={JSON.stringify(userInfo._id)}
             currentUserImg={user.imageUrl}
             />
-        </div> */}
-
-        <div>
-            <h1 className="text-white">hello world!</h1>
         </div>
     </div>)
 }

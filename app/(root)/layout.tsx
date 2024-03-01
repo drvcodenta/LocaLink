@@ -11,8 +11,8 @@ import Bottombar from '@/components/shared/Bottombar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Threads',
-  description: 'Threads Simulation'
+  title: 'LocaLink',
+  description: 'Connect Locally'
 }
 
 export default function RootLayout({
