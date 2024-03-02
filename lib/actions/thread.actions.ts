@@ -116,9 +116,9 @@ export async function fetchThreadById(id: string){
 export async function addCommentToThread(threadId:string, threadText: string, userId: string, path:string) {
     ConnectToDB()
     try{
-        const origThread = await(fetchThreadById(threadId))
+        const origThread = await Thread.findById(threadId);
     if(!origThread){
-        throw new Error(`Error fetching original thread: ${error}`)
+        throw new Error(`Error fetching original thread: ${error}`);
     }
 
     const Comment = new Thread({
@@ -126,10 +126,12 @@ export async function addCommentToThread(threadId:string, threadText: string, us
         author: userId,
         parentId: threadId,
     })
-    origThread.children.push(threadId) //add the comment thread ID to the original threads's children array
+
+
     const saveComment = await Comment.save(); //save the comment to the DB
-    await origThread.save() // save the updated original thread to the DB
-    revalidatePath(path)
+    origThread.children.push(saveComment._id); //add the comment thread ID to the original threads's children array
+    await origThread.save(); // save the updated original thread to the DB
+    revalidatePath(path);
     }catch(error){
         throw new Error(`Comment jaa nahi raha hai(unable to add Comment) ${error}`)
     }

@@ -1,4 +1,5 @@
 import ThreadCard from "@/components/cards/ThreadCard";
+import Comment from "@/components/forms/Comment";
 import { fetchPost } from "@/lib/actions/thread.actions"
 import { currentUser } from "@clerk/nextjs";
 
@@ -6,8 +7,6 @@ async function Home() {
 
   const result = await fetchPost(1, 30);
   const user = await currentUser();
-
-  console.log(result)
 
   return (
 
@@ -30,7 +29,8 @@ async function Home() {
             createAt = {post.createdAt}
             comments = {post.children}
             />
-          ))}</>
+          ))}
+          </>
         )}
       </section>
     </>

@@ -4,6 +4,7 @@ import heart_grey from "/assets/heart-gray.svg"
 import reply from "/assets/reply.svg"
 import share from "/assets/share.svg"
 import repost from "/assets/repost.svg"
+import Comment from "../forms/Comment";
 
 
 interface Props{
