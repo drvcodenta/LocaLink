@@ -120,6 +120,14 @@ export async function addCommentToThread(threadId:string, threadText: string, us
     if(!origThread){
         throw new Error(`Error fetching original thread: ${error}`);
     }
+    if (typeof userId === 'string' && userId.startsWith('"') && userId.endsWith('"')) {
+        userId = userId.replace(/"/g, ''); // Remove the extra quotes
+    }
+    // console.log(userId)
+
+    if (typeof userId === 'string'){
+        userId = userId.replace(/\\/g, '') // Remove the extra backslashes
+    }
 
     const Comment = new Thread({
         text: threadText,

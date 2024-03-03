@@ -22,6 +22,7 @@ import { usePathname,useRouter } from "next/navigation";
 import { CommentValidation } from "@/lib/validations/thread";
 import Image from 'next/image';
 import { addCommentToThread } from '@/lib/actions/thread.actions';
+import { userInfo } from 'os';
 // import { createThread } from '@/lib/actions/thread.actions';
 
 
@@ -32,20 +33,17 @@ interface Props{
 }
 
 function Comment({threadId, currentUserId, currentUserImg}: Props){
-    
-  const router = useRouter();
   const pathname = usePathname();
-
 
     const form = useForm<z.infer<typeof CommentValidation>>({
         resolver: zodResolver(CommentValidation),
         defaultValues: {
-            thread: ""
-        }
-    })
+            thread: "",
+        },
+    });
 
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-      await addCommentToThread(threadId, values.thread, currentUserId, pathname);
+      await addCommentToThread(threadId, values.thread, JSON.stringify(currentUserId), pathname);
       form.reset();
     }
     return (
