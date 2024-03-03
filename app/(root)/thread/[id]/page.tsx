@@ -31,7 +31,7 @@ const Page = async ({ params } : { params : { id : string}}) => {
             author = {thread.author}
             community = {thread.community}
             createAt = {thread.createdAt}
-            comments = {thread .children}
+            comments = {thread.children}
         />
         </div>
 
@@ -41,6 +41,21 @@ const Page = async ({ params } : { params : { id : string}}) => {
             currentUserId={JSON.stringify(userInfo._id)}
             currentUserImg={user.imageUrl}
             />
+        </div>
+        
+        <div className="mt-7">
+            {thread.children.map((childItem: any) => (<ThreadCard
+            key = {childItem._id}
+            id = {childItem._id}
+            currentUserId = {childItem.id}
+            parentId={childItem.parentId}
+            content={childItem.text}
+            author={childItem.author}
+            community={childItem.community}
+            createAt={childItem.createAt}
+            comments={childItem.children}
+            isComment
+            />))}
         </div>
     </div>)
 }
