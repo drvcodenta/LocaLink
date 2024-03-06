@@ -43,9 +43,7 @@ text,author,communityId,path
 
 export async function fetchPost(pageNumber=1, pageSize=1){
     ConnectToDB();
-
     const skipAmount = (pageNumber - 1) * pageSize; 
-
     //This snnipet fetched the post that have no parent id
     // The postQuery variable you provided is a MongoDB query that will find all threads with no parent (parentId: {$in: [null, undefined]}), sorted by createdAt in descending order (sort: { createdAt: 'desc' })
     const postsQuery = Thread.find({ parentId: {$in: [null, undefined]}})
@@ -61,17 +59,12 @@ export async function fetchPost(pageNumber=1, pageSize=1){
             select: "_id name parentId image"
         }
     })
-
     const totalPostCount = await Thread.count({
         parentId : {$in : [null, undefined]}
     })
-
     const posts = await postsQuery.exec(); //is used to execute the postsQuery query and assign the results to the posts variable
-
-    const isNext = totalPostCount > skipAmount + posts.length;
-
+    const isNext = totalPostCount > skipAmount + posts.length
     return {isNext , posts}
-
 }
 
 
