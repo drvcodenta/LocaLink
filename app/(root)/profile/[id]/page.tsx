@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/_/ui/tabs"
 import ProfileHeader from "@/components/forms/ProfileHeader";
+import ThreadsTab from "@/components/shared/ThreadTab";
 import { profileTabs } from "@/constants";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
@@ -49,6 +50,14 @@ async function Page({params}:{params: {id: string}}) {
                                 </TabsTrigger>
                             ))}
                         </TabsList>
+                        {profileTabs.map((tab) => (
+                            <TabsContent key={`content-${tab.label}`} value={tab.value} className="w-full text-light-1">
+                                <ThreadsTab
+                                currentUserId={user.id}
+                                accountId={userInfo.id}
+                                accountType="User" />
+                            </TabsContent>
+                        ))}
                     </Tabs>
                 </div>
             </section>

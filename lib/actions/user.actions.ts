@@ -1,5 +1,6 @@
 'use server'
 
+import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { ConnectToDB } from "../mongoose"
 import { revalidatePath } from "next/cache";
@@ -48,5 +49,28 @@ export async function fetchUser(userId: string){
         return await User.findOne({id: userId})
     } catch (error: any) {
         throw new Error(`Failed to fetch User: ${error.message}`);
+    }
+}
+
+export async function fetchUserPosts(userId: string){
+    try{
+        ConnectToDB()
+        const threads = await User.findOne({id: userId}).populate({
+            path: 'threads',
+            model: Thread,
+            populate: {
+                path: 'children',
+                model: Thread,
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: 'name image id'
+                }
+            }
+        }
+        )
+        return threads;
+    }catch(error: any){
+        throw new Error(`Failed to fetch the post in the tabs section: ${error}`)
     }
 }
