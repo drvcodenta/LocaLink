@@ -1,5 +1,6 @@
 'use server'
 
+import { FilterQuery, SortOrder } from 'mongoose';
 import Thread from '../models/thread.model';
 import User from '../models/user.model';
 import { ConnectToDB } from "../mongoose"
@@ -72,5 +73,42 @@ export async function fetchUserPosts(userId: string){
         return threads;
     }catch(error: any){
         throw new Error(`Failed to fetch the post in the tabs section: ${error}`)
+    }
+}
+
+export async function fetchUsers({
+    userId,
+    pagenumber = 1,
+    searchString = "",
+    pagesize = 20,
+    sortBy = "desc"
+}: {
+    userId: string,
+    pagenumber?: number,
+    searchString?: string,
+    pagesize?: number,
+    sortBy?: SortOrder,
+}){
+    try{
+        ConnectToDB();
+        const skipAmount = (pagenumber - 1) * pagesize;
+        const regex = new RegExp(searchString, "i");
+        const query: FilterQuery<typeof User>={
+            id: {$ne: userId}
+        }
+        if(searchString.trim() !== ''){
+            query.$or = [
+                {username: {$regex: regex}},
+                {name: {$regex: regex}},
+            ]
+        }
+        const sortOptions = {createdAt: sortBy};
+        const usersQuery = User.find(query).sort(sortOptions).skip(skipAmount).limit(pagesize);
+        const totalUsersCount = await User.countDocuments(query);
+        const users = await usersQuery.exec();
+        const isNext = totalUsersCount > skipAmount + users.length;
+        return {users, isNext};
+    }catch(error: any){
+        throw new Error(`Failed to fetch users: ${error.message}`)
     }
 }
