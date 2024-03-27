@@ -112,3 +112,14 @@ export async function fetchUsers({
         throw new Error(`Failed to fetch users: ${error.message}`)
     }
 }
+
+export async function getActivity(userId: string){
+    try{
+        ConnectToDB();
+        //find all threads created by user
+        const usertheads = await Thread.find({author: userId});
+        //collect all child thread ids(replies) from the children field
+    }catch(error: any){
+        throw new Error("cannot connect to db and fetch activity page");
+    }
+}
